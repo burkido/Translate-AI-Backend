@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+from typing import List
 
 class TranslateRequest(BaseModel):
     source_lang: str
@@ -6,4 +7,4 @@ class TranslateRequest(BaseModel):
     text: str
 
 class TranslateResponse(BaseModel):
-    translated_text: str
+    translated_text: List[str]
