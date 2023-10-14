@@ -17,8 +17,9 @@ class ModelManager:
         del self.models[model_name]
 
     def predict(self, model_name, data):
-        model = self.models[model_name]['model']
-        tokenizer = self.models[model_name]['tokenizer']
-        input_ids = tokenizer.encode(data, return_tensors='pt')
-        output = model(input_ids)
-        return tokenizer.decode(output[0], skip_special_tokens=True)
+        model = self.models[os.path.basename(model_name)]['model']
+        tokenizer = self.models[os.path.basename(model_name)]['tokenizer']
+        input_ids = tokenizer(data, return_tensors='pt').input_ids
+        outputs = model.generate(input_ids=input_ids, num_beams=5, num_return_sequences=1)
+        result = tokenizer.batch_decode(outputs, skip_special_tokens=True)
+        return result
