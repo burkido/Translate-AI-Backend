@@ -4,3 +4,4 @@ transformers
 transformers[sentencepiece]
 torch
 sacremoses
+pydantic_settings
