@@ -16,6 +16,7 @@ def start_app_handler(app: FastAPI, model_paths: List[str], tokenizer_names: Lis
     def startup() -> None:
         model_manager = ModelManager()
         for model_path, tokenizer_name in zip(model_paths, tokenizer_names):
+            print("event_handler.py || model_path: ", model_path, "tokenizer_name: ", tokenizer_name)
             model_manager.add_model(model_path, tokenizer_name)
         app.state.model_manager = model_manager
 
