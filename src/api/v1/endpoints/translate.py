@@ -10,15 +10,31 @@ async def translate(request: Request, payload: TranslateRequest) -> TranslateRes
     target_lang = payload.target_lang
     text = payload.text
 
-    print("translate.py  || source_lang: ", source_lang, "target_lang: ", target_lang, "text: ", text)
-
-    model_path = f"/code/src/ml_model/{source_lang}-{target_lang}/model-opus-mt.pkl"
-    print("source_lang: ", source_lang, "target_lang: ", target_lang, "text: ", text, "model_path: ", model_path)
-
     model_manager = request.app.state.model_manager
-    translated = model_manager.predict(
-        model_name=model_path,
-        data=text
-    )
 
-    return TranslateResponse(translated_text=translated)
+    if target_lang == 'en':
+        model_path = "/code/src/ml_model/mul-en/model-opus-mt.pkl"
+        translated = model_manager.predict(
+            model_name=model_path,
+            data=text
+        )
+        return TranslateResponse(translated_text=translated)
+    elif source_lang == 'en':
+        model_path = f"/code/src/ml_model/en-{target_lang}/model-opus-mt.pkl"
+        translated = model_manager.predict(
+            model_name=model_path,
+            data=text
+        )
+        return TranslateResponse(translated_text=translated)
+    else:
+        model_path = f"/code/src/ml_model/mul-en/model-opus-mt.pkl"
+        translated = model_manager.predict(
+            model_name=model_path,
+            data=text
+        )
+        model_path = f"/code/src/ml_model/en-{target_lang}/model-opus-mt.pkl"
+        translated = model_manager.predict(
+            model_name=model_path,
+            data=translated
+        )
+        return TranslateResponse(translated_text=translated)
