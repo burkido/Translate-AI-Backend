@@ -6,7 +6,6 @@ router = APIRouter()
 
 @router.post("/", response_model=TranslateResponse)
 async def translate(request: Request, payload: TranslateRequest) -> TranslateResponse:
-    print("translate.py || payload: ", payload)
     source_lang = payload.source_lang
     target_lang = payload.target_lang
     text = payload.text
