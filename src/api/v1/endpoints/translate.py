@@ -18,14 +18,14 @@ async def translate(request: Request, payload: TranslateRequest) -> TranslateRes
             model_name=model_path,
             data=text
         )
-        return TranslateResponse(translated_text=translated)
+        return TranslateResponse(translated_text=translated[0])
     elif source_lang == 'en':
         model_path = f"/code/src/ml_model/en-{target_lang}/model-opus-mt.pkl"
         translated = model_manager.predict(
             model_name=model_path,
             data=text
         )
-        return TranslateResponse(translated_text=translated)
+        return TranslateResponse(translated_text=translated[0])
     else:
         model_path = f"/code/src/ml_model/mul-en/model-opus-mt.pkl"
         translated = model_manager.predict(
@@ -37,4 +37,4 @@ async def translate(request: Request, payload: TranslateRequest) -> TranslateRes
             model_name=model_path,
             data=translated
         )
-        return TranslateResponse(translated_text=translated)
+        return TranslateResponse(translated_text=translated[0])
